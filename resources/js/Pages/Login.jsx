@@ -7,8 +7,23 @@ import {
   InputLabel, 
   MenuItem, 
   Select,
-  TextField 
+  TextField
 } from '@mui/material';
+import { styled } from '@m'
+
+// custom input with MUI
+const CustomTextField = styled(TextField)({
+  '& .MuiOutlinedInput-root': {
+    '&.Mui-focused': {
+      borderColor: 'rgb(99, 99, 135)',  // Change border color on focus
+    },
+  },
+  '& .MuiInputLabel-root': {
+    '&.Mui-focused': {
+      color: 'rgb(99, 99, 135)',  // Change label color on focus
+    },
+  },
+});
 
 const Login = () => {
   // states
@@ -69,22 +84,28 @@ const Login = () => {
             </FormControl>
           </Box>
 
-          {/* first name input */}
-          <TextField 
-            id="first-name" 
-            label="First Name" 
-            variant="outlined"
-          />
+          {/* first & last name inputs box */}
+          <Box sx={{ width: 500, display: 'flex', gap: '1rem' }}>
+            {/* first name input */}
+            <TextField 
+              id="first-name" 
+              label="First Name" 
+              variant="outlined"
+              sx={{ width: '50%' }}
+            />
 
-          {/* last name input */}
-          <TextField 
-            id="last-name" 
-            label="Last Name" 
-            variant="outlined"
-          />
+            {/* last name input */}
+            <TextField 
+              id="last-name" 
+              label="Last Name" 
+              variant="outlined"
+              sx={{ width: '50%' }}
+            />
+          </Box>
 
           {/* organization email input */}
-          <TextField 
+          <CustomTextField 
+            sx={{ width: 500 }}
             id="organization-email" 
             label="Organization Email" 
             variant="outlined"
@@ -111,8 +132,18 @@ const Login = () => {
             </FormControl>
           </Box>
 
-          {/* verify button */}
-          <Button variant="contained" type='submit'>Verify</Button>
+          {/* verify button box */}
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+            {/* verify button itself */}
+            <Button 
+              variant="contained" 
+              type='submit'
+              sx={{ backgroundColor: 'rgb(99, 99, 135)', padding: '5px 30px' }}
+            >
+              Verify
+            </Button>
+          </Box>
+
         </form>
       </div>
     </main>

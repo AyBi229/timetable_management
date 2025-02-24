@@ -6,6 +6,7 @@
         @viteReactRefresh
         @vite('resources/js/app.jsx')
         @inertiaHead
+        <title>Excelor</title>    
     </head>
     <body>
         @inertia

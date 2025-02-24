@@ -21,6 +21,7 @@
         "@emotion/styled": "^11.14.0",
         "@inertiajs/react": "^2.0.3",
         "@mui/material": "^6.4.5",
+        "@mui/system": "^6.4.3",
         "@tailwindcss/vite": "^4.0.8",
         "react": "^19.0.0",
         "react-dom": "^19.0.0"
