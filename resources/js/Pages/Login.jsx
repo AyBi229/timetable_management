@@ -1,6 +1,7 @@
 import React from 'react';
 import './Login.css';
 import { 
+  Autocomplete,
   Box, 
   Button, 
   FormControl, 
@@ -9,8 +10,33 @@ import {
   Select,
   TextField
 } from '@mui/material';
+import axios from 'axios';
+
+// async functions for api calls
+// fetch countries
+const fetchCountries = async () => {
+  try {
+    const res = await axios.get('https://restcountries.com/v3.1/all');
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+}
+// fetch schools
+const fetchSchools = async (name, country) => {
+  try {
+    const res = await axios.get(`http://universities.hipolabs.com/search?name=${name}${country}`);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+}
 
 const Login = () => {
+  // api state lists
+  const [countries, setCountries] = React.useState([]); // countries
+  const [schools, setSchools] = React.useState([]); // schools
+
   // states
   const [country, setCountry] = React.useState(''); // country
   const [school, setSchool] = React.useState(''); // school
@@ -27,7 +53,14 @@ const Login = () => {
   }
 
   // country api call
-  React.useEffect(() => {})
+  React.useEffect(() => {
+    fetchCountries().then((data) => {
+      const sortedCountries = data.map((country) => country.name.common)
+        .sort((a, b) => a.localeCompare(b));
+      
+      setCountries(sortedCountries);
+    });
+  })
 
   // school api call
   React.useEffect(() => {})
@@ -38,6 +71,17 @@ const Login = () => {
     console.log("form submitted!")
   }
 
+  // ref for country search input
+  const countrySearchInputRef = React.useRef(null);
+
+  // manual focus on country search input as to not disrupt the custom styling
+  React.useEffect(() => {
+    // Delay focus until after component has been rendered
+    if (countrySearchInputRef.current) {
+      countrySearchInputRef.current.focus(); // Manually focus the input field
+    }
+  }, []); // <- the dependency array stops the element from getting focused multiple times on re-renders
+
   return (
     <main className='login-page'>
       <div className="login-form-container flex flex-col gap-4">
@@ -47,38 +91,38 @@ const Login = () => {
         {/* form */}
         <form className='login-form' onSubmit={handleVerification}>
 
-          {/* country select box */}
+          {/* country autocomplete container */}
           <Box sx={{ width: 500 }}>
-            {/* country select container */}
-            <FormControl fullWidth>
-              {/* country select label */}
-              <InputLabel 
-                id="country-id"
-                sx={{
-                  '&.Mui-focused': {
-                    color: 'rgb(99, 99, 135)',  // Change label color on focus
-                  }
-                }}
-              >Choose your country</InputLabel>
-              {/* country select */}
-              <Select
-                labelId="country-id"
-                id="country"
-                value={country}
-                label="Choose your country"
-                onChange={handleCountryChange}
-                autoFocus
-                sx={{
-                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                    borderColor: 'rgb(99, 99, 135)',  // Change border color on focus
-                  },
-                }}
-              >
-                <MenuItem value={'morocco'}>Morocco</MenuItem>
-                <MenuItem value={'france'}>France</MenuItem>
-                <MenuItem value={'usa'}>USA</MenuItem>
-              </Select>
-            </FormControl>
+            {/* country autocomplete */}
+            <Autocomplete
+              disablePortal
+              options={countries}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Choose your country"
+                  inputRef={countrySearchInputRef} // Attach the ref to the TextField
+                  sx={{
+                    '& .MuiInputLabel-root.Mui-focused': {
+                      color: 'rgb(99, 99, 135)', // Change label color on focus
+                    },
+                    '& .MuiOutlinedInput-notchedOutline': {
+                      borderColor: 'rgb(99, 99, 135) !important', // Forcefully change border color on focus
+                    },
+                    '& .Mui-focused .MuiOutlinedInput-notchedOutline': {
+                      borderColor: 'rgb(99, 99, 135) !important', // Forcefully change border color on focus
+                    },
+                    '& .MuiInputLabel-root': {
+                      color: 'rgb(99, 99, 135)', // Initial label color
+                    },
+                    // Add a transition for smooth focusing
+                    '& .MuiOutlinedInput-root': {
+                      transition: 'border-color 0.3s ease',
+                    },
+                  }}
+                />
+              )}
+            />
           </Box>
 
           {/* first & last name inputs box */}
@@ -132,37 +176,25 @@ const Login = () => {
             variant="outlined"
           />
 
-          {/* school select box */}
+          {/* school autocompete box */}
           <Box sx={{ width: 500 }}>
-            {/* school select container */}
-            <FormControl fullWidth>
-              {/* school select label */}
-              <InputLabel 
-                id="school-id"
-                sx={{
-                  '&.Mui-focused': {
-                    color: 'rgb(99, 99, 135)',  // Change label color on focus
-                  }
-                }}
-              >Choose your school</InputLabel>
-              {/* school select */}
-              <Select
-                labelId="school-id"
-                id="school"
-                value={school}
-                label="Choose your school"
-                onChange={handleSchoolChange}
-                sx={{
-                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                    borderColor: 'rgb(99, 99, 135)',  // Change border color on focus
-                  },
-                }}
-              >
-                <MenuItem value={'morocco'}>School 1</MenuItem>
-                <MenuItem value={'france'}>School 2</MenuItem>
-                <MenuItem value={'usa'}>School 3</MenuItem>
-              </Select>
-            </FormControl>
+            {/* school autocompete */}
+            <Autocomplete
+              disablePortal
+              options={schools}
+              renderInput={(params) => <TextField {...params} label="Choose your school" />}
+              sx={{
+                '& .MuiInputLabel-root.Mui-focused': {
+                  color: 'rgb(99, 99, 135)',  // Change label color on focus
+                },
+                '& .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'rgb(99, 99, 135)',  // Change border color on focus
+                },
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'rgb(99, 99, 135)',  // Change border color on focus
+                }
+              }}
+            />
           </Box>
 
           {/* verify button box */}
