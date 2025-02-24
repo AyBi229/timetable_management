@@ -9,21 +9,6 @@ import {
   Select,
   TextField
 } from '@mui/material';
-import { styled } from '@m'
-
-// custom input with MUI
-const CustomTextField = styled(TextField)({
-  '& .MuiOutlinedInput-root': {
-    '&.Mui-focused': {
-      borderColor: 'rgb(99, 99, 135)',  // Change border color on focus
-    },
-  },
-  '& .MuiInputLabel-root': {
-    '&.Mui-focused': {
-      color: 'rgb(99, 99, 135)',  // Change label color on focus
-    },
-  },
-});
 
 const Login = () => {
   // states
@@ -67,7 +52,14 @@ const Login = () => {
             {/* country select container */}
             <FormControl fullWidth>
               {/* country select label */}
-              <InputLabel id="country-id">Choose your country</InputLabel>
+              <InputLabel 
+                id="country-id"
+                sx={{
+                  '&.Mui-focused': {
+                    color: 'rgb(99, 99, 135)',  // Change label color on focus
+                  }
+                }}
+              >Choose your country</InputLabel>
               {/* country select */}
               <Select
                 labelId="country-id"
@@ -76,6 +68,11 @@ const Login = () => {
                 label="Choose your country"
                 onChange={handleCountryChange}
                 autoFocus
+                sx={{
+                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                    borderColor: 'rgb(99, 99, 135)',  // Change border color on focus
+                  },
+                }}
               >
                 <MenuItem value={'morocco'}>Morocco</MenuItem>
                 <MenuItem value={'france'}>France</MenuItem>
@@ -91,7 +88,15 @@ const Login = () => {
               id="first-name" 
               label="First Name" 
               variant="outlined"
-              sx={{ width: '50%' }}
+              sx={{ 
+                width: '50%', 
+                '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'rgb(99, 99, 135)',  // Change border color on focus
+                },
+                '& .MuiInputLabel-root.Mui-focused': {
+                  color: 'rgb(99, 99, 135)',  // Change label color on focus
+                },
+              }}
             />
 
             {/* last name input */}
@@ -99,13 +104,29 @@ const Login = () => {
               id="last-name" 
               label="Last Name" 
               variant="outlined"
-              sx={{ width: '50%' }}
+              sx={{ 
+                width: '50%', 
+                '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'rgb(99, 99, 135)',  // Change border color on focus
+                },
+                '& .MuiInputLabel-root.Mui-focused': {
+                  color: 'rgb(99, 99, 135)',  // Change label color on focus
+                },
+              }}
             />
           </Box>
 
           {/* organization email input */}
-          <CustomTextField 
-            sx={{ width: 500 }}
+          <TextField 
+            sx={{
+              width: 500,
+              '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'rgb(99, 99, 135)',  // Change border color on focus
+              },
+              '& .MuiInputLabel-root.Mui-focused': {
+                color: 'rgb(99, 99, 135)',  // Change label color on focus
+              },
+            }}
             id="organization-email" 
             label="Organization Email" 
             variant="outlined"
@@ -116,7 +137,14 @@ const Login = () => {
             {/* school select container */}
             <FormControl fullWidth>
               {/* school select label */}
-              <InputLabel id="school-id">Choose your school</InputLabel>
+              <InputLabel 
+                id="school-id"
+                sx={{
+                  '&.Mui-focused': {
+                    color: 'rgb(99, 99, 135)',  // Change label color on focus
+                  }
+                }}
+              >Choose your school</InputLabel>
               {/* school select */}
               <Select
                 labelId="school-id"
@@ -124,6 +152,11 @@ const Login = () => {
                 value={school}
                 label="Choose your school"
                 onChange={handleSchoolChange}
+                sx={{
+                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                    borderColor: 'rgb(99, 99, 135)',  // Change border color on focus
+                  },
+                }}
               >
                 <MenuItem value={'morocco'}>School 1</MenuItem>
                 <MenuItem value={'france'}>School 2</MenuItem>
@@ -138,7 +171,11 @@ const Login = () => {
             <Button 
               variant="contained" 
               type='submit'
-              sx={{ backgroundColor: 'rgb(99, 99, 135)', padding: '5px 30px' }}
+              sx={{ 
+                backgroundColor: 'rgb(99, 99, 135)', 
+                padding: '5px 30px',
+                textTransform: 'none'  // This stops the all-caps behavior
+              }}
             >
               Verify
             </Button>
