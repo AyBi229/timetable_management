@@ -9,8 +9,12 @@ createInertiaApp({
     const pages = import.meta.glob('./Pages/**/*.jsx', { eager: true })
     let page =  pages[`./Pages/${name}.jsx`]
 
-    // set a default layout for your app
-    page.default.layout = page.default.layout || (page => <GuestLayout children={page} />)
+    // default layout is applied to all pages except Login
+    if (name == 'Login') {
+      page.default.layout = null
+    } else {
+      page.default.layout = page.default.layout || (page => <GuestLayout children={page} />)
+    }
 
     // return the page
     return page;
