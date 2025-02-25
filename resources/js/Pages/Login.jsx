@@ -22,37 +22,27 @@ const fetchCountries = async () => {
     console.log(err);
   }
 }
-// fetch schools
-const fetchSchools = async (name, country) => {
-  try {
-    const res = await axios.get(`http://universities.hipolabs.com/search?name=${name}${country}`);
-    return res.data;
-  } catch (err) {
-    console.log(err);
-  }
-}
 
 const Login = () => {
   // api state lists
-  const [countries, setCountries] = React.useState([]); // countries
-  const [schools, setSchools] = React.useState([]); // schools
+  const [countries, setCountries] = React.useState([]); // countries list
+  
+  /**
+   * DO NOT DELETE:
+   * fixing the issue concerning the disruption of the custom styling for the country selection autocomplete component 
+   */
+  const countrySearchInputRef = React.useRef(null); // ref of country autocomplete component
 
-  // states
-  const [country, setCountry] = React.useState(''); // country
-  const [school, setSchool] = React.useState(''); // school
+  // mounting execution only once
+  React.useEffect(() => {
+    // Manually focus the input field until after component has been rendered
+    if (countrySearchInputRef.current) {
+      countrySearchInputRef.current.focus(); // 
+    }
+  }, []); // <- the dependency array stops the component from getting focused multiple times on re-renders
 
-  // state handlers
-  // country select 
-  const handleCountryChange = (e) => {
-    setCountry(e.target.value);
-  }
-
-  // school select
-  const handleSchoolChange = (e) => {
-    setSchool(e.target.value);
-  }
-
-  // country api call
+  // api calls
+  // country api
   React.useEffect(() => {
     fetchCountries().then((data) => {
       const sortedCountries = data.map((country) => country.name.common)
@@ -60,10 +50,7 @@ const Login = () => {
       
       setCountries(sortedCountries);
     });
-  })
-
-  // school api call
-  React.useEffect(() => {})
+  }, []);
 
   // verification form submission handler
   const handleVerification = (e) => {
@@ -71,22 +58,15 @@ const Login = () => {
     console.log("form submitted!")
   }
 
-  // ref for country search input
-  const countrySearchInputRef = React.useRef(null);
-
-  // manual focus on country search input as to not disrupt the custom styling
-  React.useEffect(() => {
-    // Delay focus until after component has been rendered
-    if (countrySearchInputRef.current) {
-      countrySearchInputRef.current.focus(); // Manually focus the input field
-    }
-  }, []); // <- the dependency array stops the element from getting focused multiple times on re-renders
-
   return (
     <main className='login-page'>
       <div className="login-form-container flex flex-col gap-4">
+
         {/* title */}
-        <h1 className='login-title text-2xl font-bold'>Login as your organisation's Super Admin</h1>
+        <div className='login-title-container'>
+          <h1 className='login-title text-2xl font-bold'>Welcome to Excelor</h1> {/* title */}
+          <em className='login-subtitle text-center'>Log in as a member of your organisation</em> {/* subtitle */}
+        </div>
 
         {/* form */}
         <form className='login-form' onSubmit={handleVerification}>
@@ -100,6 +80,7 @@ const Login = () => {
               renderInput={(params) => (
                 <TextField
                   {...params}
+                  required
                   label="Choose your country"
                   inputRef={countrySearchInputRef} // Attach the ref to the TextField
                   sx={{
@@ -132,6 +113,7 @@ const Login = () => {
               id="first-name" 
               label="First Name" 
               variant="outlined"
+              required
               sx={{ 
                 width: '50%', 
                 '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
@@ -148,6 +130,7 @@ const Login = () => {
               id="last-name" 
               label="Last Name" 
               variant="outlined"
+              required
               sx={{ 
                 width: '50%', 
                 '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
@@ -162,6 +145,7 @@ const Login = () => {
 
           {/* organization email input */}
           <TextField 
+            required
             sx={{
               width: 500,
               '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
@@ -175,31 +159,27 @@ const Login = () => {
             label="Organization Email" 
             variant="outlined"
           />
+        
+          {/* school name */}
+          <TextField 
+            required
+            sx={{
+              width: 500,
+              '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                borderColor: 'rgb(99, 99, 135)',  // Change border color on focus
+              },
+              '& .MuiInputLabel-root.Mui-focused': {
+                color: 'rgb(99, 99, 135)',  // Change label color on focus
+              },
+            }}
+            id="school-name" 
+            label="School Name" 
+            variant="outlined"
+          />
 
-          {/* school autocompete box */}
-          <Box sx={{ width: 500 }}>
-            {/* school autocompete */}
-            <Autocomplete
-              disablePortal
-              options={schools}
-              renderInput={(params) => <TextField {...params} label="Choose your school" />}
-              sx={{
-                '& .MuiInputLabel-root.Mui-focused': {
-                  color: 'rgb(99, 99, 135)',  // Change label color on focus
-                },
-                '& .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'rgb(99, 99, 135)',  // Change border color on focus
-                },
-                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'rgb(99, 99, 135)',  // Change border color on focus
-                }
-              }}
-            />
-          </Box>
-
-          {/* verify button box */}
+          {/* verify submit button box */}
           <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            {/* verify button itself */}
+            {/* verify submit button */}
             <Button 
               variant="contained" 
               type='submit'

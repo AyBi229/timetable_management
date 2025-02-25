@@ -21,6 +21,15 @@ div.login-form-container {
     display: grid;
     justify-content: center;
     align-items: center;
+    border-radius: 5px;
+}
+
+/* the form title container */
+div.login-title-container {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
 }
 
 /* the form title */
