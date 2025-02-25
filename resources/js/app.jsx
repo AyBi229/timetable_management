@@ -3,6 +3,8 @@ import { createInertiaApp } from '@inertiajs/react'
 import { createRoot } from 'react-dom/client'
 import '../css/app.css'
 import GuestLayout from '@/Layouts/GuestLayout';
+import { QueryClientProvider } from '@tanstack/react-query';
+import queryClient from './Utilities/queryClient';
 
 createInertiaApp({
   resolve: name => {

@@ -3,36 +3,29 @@ import './Login.css';
 import { 
   Autocomplete,
   Box, 
-  Button, 
-  FormControl, 
-  InputLabel, 
-  MenuItem, 
-  Select,
+  Button,
   TextField
 } from '@mui/material';
-import axios from 'axios';
-
-// async functions for api calls
-// fetch countries
-const fetchCountries = async () => {
-  try {
-    const res = await axios.get('https://restcountries.com/v3.1/all');
-    return res.data;
-  } catch (err) {
-    console.log(err);
-  }
-}
+import { useQuery } from '@tanstack/react-query';
+import { fetchCountries } from '../Utilities/apis.js';
 
 const Login = () => {
+  // use query hook
+  const { data: countries, isLoading, isError } = useQuery({
+    queryKey: ['countries'], // key
+    queryFn: fetchCountries // function
+  });
+
   // states
-  const [countries, setCountries] = React.useState([]); // countries list
   const [errors, setErrors] = React.useState({}); // error object
   
   /**
    * DO NOT DELETE:
    * fixing the issue concerning the disruption of the custom styling for the country selection autocomplete component 
    */
-  const countrySearchInputRef = React.useRef(null); // ref of country autocomplete component
+
+  // ref of country autocomplete component
+  const countrySearchInputRef = React.useRef(null);
 
   // mounting execution only once
   React.useEffect(() => {
@@ -42,64 +35,64 @@ const Login = () => {
     }
   }, []); // <- the dependency array stops the component from getting focused multiple times on re-renders
 
-  // api calls
-  // country api
-  React.useEffect(() => {
-    fetchCountries().then((data) => {
-      const sortedCountries = data.map((country) => country.name.common)
-        .sort((a, b) => a.localeCompare(b));
-      
-      setCountries(sortedCountries);
-    });
-  }, []);
-
   // verification form submission handler
   const handleVerification = (e) => {
-    e.preventDefault(); // prevents reload during submission
-
+    // Prevents reload during submission
+    e.preventDefault();
+  
     // FormData API
     const formData = new FormData(e.target);
-
-    // data
+  
+    // Data
+    const country = formData.get('country');
     const first_name = formData.get('first_name');
     const last_name = formData.get('last_name');
     const organization_email = formData.get('organization_email');
     const school_name = formData.get('school_name');
-
-    // error messages
-    // first name
+  
+    // Clear previous errors
+    setErrors({});
+  
+    // Initialize a flag to track validation
+    let isValid = true;
+  
+    // Validate first name
     if (first_name.length < 2) {
-      errors.first_name = 'First name must be at least 2 characters';
+      setErrors((prevErrors) => ({ ...prevErrors, first_name: 'Must be at least 2 characters' }));
       e.target.first_name.focus();
+      isValid = false;
     }
-    // last name
+  
+    // Validate last name
     if (last_name.length < 2) {
-      errors.last_name = 'Last name must be at least 2 characters';
+      setErrors((prevErrors) => ({ ...prevErrors, last_name: 'Must be at least 2 characters' }));
       e.target.last_name.focus();
+      isValid = false;
     }
-    // organization email
-    if (!organization_email.includes('@')) {
-      errors.organization_email = 'Invalid email address';
+  
+    // Validate organization email
+    // regex for email validation
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(organization_email)) {
+      setErrors((prevErrors) => ({ ...prevErrors, organization_email: 'Invalid email address' }));
       e.target.organization_email.focus();
+      isValid = false;
     }
-    // school name
+  
+    // Validate school name
     if (school_name.length < 2) {
-      errors.school_name = 'School name must be at least 2 characters';
+      setErrors((prevErrors) => ({ ...prevErrors, school_name: 'Must be at least 2 characters' }));
       e.target.school_name.focus();
+      isValid = false;
     }
-
-    // form values
-    const formValues = {
-      country: formData.get('country'),
-      first_name: formData.get('first_name'),
-      last_name: formData.get('last_name'),
-      organization_email: formData.get('organization_email'),
-      school_name: formData.get('school_name'),
-    };
-
-    console.log(Object.entries(formValues));
+  
+    // If valid, log the form values
+    if (isValid) {
+      const formValues = { country, first_name, last_name, organization_email, school_name };
+      console.log(formValues);
+    }
   }
-
+  
   return (
     <main className='login-page'>
       <div className="login-form-container flex flex-col gap-4">
@@ -118,7 +111,10 @@ const Login = () => {
             {/* country autocomplete */}
             <Autocomplete
               disablePortal
-              options={countries}
+              options={countries || []}
+              loading={isLoading}
+              getOptionLabel={(option) => option.name.common}
+              isOptionEqualToValue={(option, value) => option.name.common === value.name.common}
               renderInput={(params) => (
                 <TextField
                   {...params}
