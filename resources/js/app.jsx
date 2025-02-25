@@ -20,6 +20,11 @@ createInertiaApp({
     return page;
   },
   setup({ el, App, props }) {
-    createRoot(el).render(<App {...props} />)
+    createRoot(el).render(
+      // using react query for data fetching
+      <QueryClientProvider client={queryClient}> 
+        <App {...props} />
+      </QueryClientProvider>
+    )
   },
 })

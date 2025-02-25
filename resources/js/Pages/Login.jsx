@@ -24,8 +24,9 @@ const fetchCountries = async () => {
 }
 
 const Login = () => {
-  // api state lists
+  // states
   const [countries, setCountries] = React.useState([]); // countries list
+  const [errors, setErrors] = React.useState({}); // error object
   
   /**
    * DO NOT DELETE:
@@ -55,7 +56,48 @@ const Login = () => {
   // verification form submission handler
   const handleVerification = (e) => {
     e.preventDefault(); // prevents reload during submission
-    console.log("form submitted!")
+
+    // FormData API
+    const formData = new FormData(e.target);
+
+    // data
+    const first_name = formData.get('first_name');
+    const last_name = formData.get('last_name');
+    const organization_email = formData.get('organization_email');
+    const school_name = formData.get('school_name');
+
+    // error messages
+    // first name
+    if (first_name.length < 2) {
+      errors.first_name = 'First name must be at least 2 characters';
+      e.target.first_name.focus();
+    }
+    // last name
+    if (last_name.length < 2) {
+      errors.last_name = 'Last name must be at least 2 characters';
+      e.target.last_name.focus();
+    }
+    // organization email
+    if (!organization_email.includes('@')) {
+      errors.organization_email = 'Invalid email address';
+      e.target.organization_email.focus();
+    }
+    // school name
+    if (school_name.length < 2) {
+      errors.school_name = 'School name must be at least 2 characters';
+      e.target.school_name.focus();
+    }
+
+    // form values
+    const formValues = {
+      country: formData.get('country'),
+      first_name: formData.get('first_name'),
+      last_name: formData.get('last_name'),
+      organization_email: formData.get('organization_email'),
+      school_name: formData.get('school_name'),
+    };
+
+    console.log(Object.entries(formValues));
   }
 
   return (
@@ -81,6 +123,7 @@ const Login = () => {
                 <TextField
                   {...params}
                   required
+                  name='country'
                   label="Choose your country"
                   inputRef={countrySearchInputRef} // Attach the ref to the TextField
                   sx={{
@@ -111,9 +154,12 @@ const Login = () => {
             {/* first name input */}
             <TextField 
               id="first-name" 
-              label="First Name" 
+              error={ errors.first_name ? true : false }
+              helperText={ errors.first_name ? errors.first_name : '' }
+              label={ errors.first_name ? "Error" : "First Name" } 
               variant="outlined"
               required
+              name='first_name'
               sx={{ 
                 width: '50%', 
                 '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
@@ -128,9 +174,12 @@ const Login = () => {
             {/* last name input */}
             <TextField 
               id="last-name" 
-              label="Last Name" 
+              error={ errors.last_name ? true : false }
+              helperText={ errors.last_name ? errors.last_name : '' }
+              label={ errors.last_name ? "Error" : "Last Name" }
               variant="outlined"
               required
+              name='last_name'
               sx={{ 
                 width: '50%', 
                 '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
@@ -146,6 +195,8 @@ const Login = () => {
           {/* organization email input */}
           <TextField 
             required
+            error={ errors.organization_email ? true : false }
+            helperText={ errors.organization_email ? errors.organization_email : '' }
             sx={{
               width: 500,
               '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
@@ -156,8 +207,9 @@ const Login = () => {
               },
             }}
             id="organization-email" 
-            label="Organization Email" 
+            label={ errors.organization_email ? "Error" : "Organization Email" }
             variant="outlined"
+            name='organization_email'
           />
         
           {/* school name */}
@@ -173,8 +225,11 @@ const Login = () => {
               },
             }}
             id="school-name" 
-            label="School Name" 
+            error={ errors.school_name ? true : false }
+            helperText={ errors.school_name ? errors.school_name : '' }
+            label={ errors.school_name ? "Error" : "School Name" }
             variant="outlined"
+            name='school_name'
           />
 
           {/* verify submit button box */}
