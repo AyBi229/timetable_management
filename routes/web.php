@@ -21,3 +21,9 @@ Route::get('/', function () {
 Route::get('/login', function () {
     return Inertia::render('Login');
 });
+
+// jwks
+Route::get('/jwks', function () {
+    $jwks = json_decode(file_get_contents(storage_path('keys/jwks.json')), true);
+    return response()->json($jwks);
+});
