@@ -25,6 +25,7 @@ const Login = () => {
 
   // states
   const [errors, setErrors] = React.useState({}); // error object
+  const [showPassword, setShowPassword] = React.useState(false);
   
   /**
    * DO NOT DELETE:
@@ -42,7 +43,14 @@ const Login = () => {
     }
   }, []); // <- the dependency array stops the component from getting focused multiple times on re-renders
 
-  // verification form submission handler
+  // handlers
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+  const handleMouseUpPassword = (event) => {
+    event.preventDefault();
+  };
   const handleVerification = (e) => {
     // Prevents reload during submission
     e.preventDefault();
