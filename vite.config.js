@@ -15,4 +15,7 @@ export default defineConfig({
             '@': '/resources/js',
         },
     },
+    optimizeDeps: {
+        include: ['@mui/icons-material/Visibility', '@mui/icons-material/VisibilityOff'],
+    }
 });

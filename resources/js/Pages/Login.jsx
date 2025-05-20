@@ -4,9 +4,15 @@ import {
   Autocomplete,
   Box, 
   Button,
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
   TextField
 } from '@mui/material';
-import Link from '@mui/material/Link';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useQuery } from '@tanstack/react-query';
 import { fetchCountries } from '../Utilities/apis.js';
 
@@ -45,11 +51,8 @@ const Login = () => {
     const formData = new FormData(e.target);
   
     // Data
-    const country = formData.get('country');
-    const first_name = formData.get('first_name');
-    const last_name = formData.get('last_name');
-    const organization_email = formData.get('organization_email');
-    const school_name = formData.get('school_name');
+    const email = formData.get('email');
+    const password = formData.get('password');
   
     // Clear previous errors
     setErrors({});
@@ -57,39 +60,27 @@ const Login = () => {
     // Initialize a flag to track validation
     let isValid = true;
   
-    // Validate first name
-    if (first_name.length < 2) {
-      setErrors((prevErrors) => ({ ...prevErrors, first_name: 'Must be at least 2 characters' }));
-      e.target.first_name.focus();
-      isValid = false;
-    }
-  
-    // Validate last name
-    if (last_name.length < 2) {
-      setErrors((prevErrors) => ({ ...prevErrors, last_name: 'Must be at least 2 characters' }));
-      e.target.last_name.focus();
-      isValid = false;
-    }
-  
     // Validate organization email
     // regex for email validation
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!emailRegex.test(organization_email)) {
-      setErrors((prevErrors) => ({ ...prevErrors, organization_email: 'Invalid email address' }));
-      e.target.organization_email.focus();
+    if (!emailRegex.test(email)) {
+      setErrors((prevErrors) => ({ ...prevErrors, email: 'Invalid email address' }));
+      e.target.email.focus();
       isValid = false;
     }
   
     // Validate school name
-    if (school_name.length < 2) {
-      setErrors((prevErrors) => ({ ...prevErrors, school_name: 'Must be at least 2 characters' }));
-      e.target.school_name.focus();
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+
+    if (!passwordRegex.test(password)) {
+      setErrors((prevErrors) => ({ ...prevErrors, password: 'Weak password' }));
+      e.target.password.focus();
       isValid = false;
     }
   
     // If valid, log the form values
     if (isValid) {
-      const formValues = { country, first_name, last_name, organization_email, school_name };
+      const formValues = { email, password };
       console.log(formValues);
     }
   }
@@ -128,25 +119,29 @@ const Login = () => {
                 },
               }}
             />
-            <TextField
-              type='password'
-              name='password'
-              id='password'
-              label={ errors.password ? "Error" : "Password" } 
-              error={ errors.password ? true : false }
-              helperText={ errors.password ? errors.password : '' }
-              variant='outlined'
-              required
-              sx={{ 
-                width: '100%', 
-                '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'rgb(99, 99, 135)',  // Change border color on focus
-                },
-                '& .MuiInputLabel-root.Mui-focused': {
-                  color: 'rgb(99, 99, 135)',  // Change label color on focus
-                },
-              }}
-            />
+            <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+          <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+          <OutlinedInput
+            id="outlined-adornment-password"
+            type={showPassword ? 'text' : 'password'}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label={
+                    showPassword ? 'hide the password' : 'display the password'
+                  }
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  onMouseUp={handleMouseUpPassword}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+            label="Password"
+          />
+        </FormControl>
             <Box>
               {/* verify submit button */}
               <Button 
