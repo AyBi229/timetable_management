@@ -130,8 +130,10 @@ const Login = () => {
             <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
           <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
           <OutlinedInput
-            id="outlined-adornment-password"
+            id="password"
             type={showPassword ? 'text' : 'password'}
+            name='password'
+            error={errors.password} // --> check useFormControl in https://mui.com/material-ui/react-text-field/ <--
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
