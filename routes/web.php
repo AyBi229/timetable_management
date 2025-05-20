@@ -22,6 +22,11 @@ Route::get('/login', function () {
     return Inertia::render('Login');
 });
 
+// signup page
+Route::get('/signup', function () {
+    return Inertia::render('Signup');
+});
+
 // jwks
 Route::get('/jwks', function () {
     $jwks = json_decode(file_get_contents(storage_path('keys/jwks.json')), true);

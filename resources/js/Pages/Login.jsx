@@ -6,6 +6,7 @@ import {
   Button,
   TextField
 } from '@mui/material';
+import Link from '@mui/material/Link';
 import { useQuery } from '@tanstack/react-query';
 import { fetchCountries } from '../Utilities/apis.js';
 
@@ -99,7 +100,7 @@ const Login = () => {
 
         {/* title */}
         <div className='login-title-container'>
-          <h1 className='login-title text-2xl font-bold'>Welcome to Excelor</h1> {/* title */}
+          <h1 className='login-title text-2xl font-bold'>Welcome back!</h1> {/* title */}
           <em className='login-subtitle text-center'>Log in as a member of your organisation</em> {/* subtitle */}
         </div>
 
@@ -227,6 +228,11 @@ const Login = () => {
             variant="outlined"
             name='school_name'
           />
+
+          {/* link to sign up */}
+          <Link href="/signup" underline="hover" sx={{ color: 'rgb(99, 99, 135)' }}>
+            First time here?
+          </Link>
 
           {/* verify submit button box */}
           <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>

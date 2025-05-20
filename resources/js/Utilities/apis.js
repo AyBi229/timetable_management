@@ -11,3 +11,12 @@ export const fetchCountries = async () => {
         console.log(err);
     }
 }
+
+export const fetchRegions = async () => {
+    try {
+        const res = await axios.get('https://restcountries.com/v3.1/all');
+        return res.data;
+    } catch (err) {
+        console.log(err);
+    }
+}
