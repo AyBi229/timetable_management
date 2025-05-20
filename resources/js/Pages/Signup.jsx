@@ -1,74 +1,50 @@
-import React from 'react'
-import { useQuery } from '@tanstack/react-query';
-import { fetchCountries } from '../Utilities/apis';
 import { Box } from '@mui/system';
-import { Autocomplete } from '@mui/material';
+import { Autocomplete, Button } from '@mui/material';
 import TextField from '@mui/material/TextField';
+import regions from '../../../regions.json'
+import React from 'react';
 
 export default function Signup() {
-    // use query hook
-    // countries
-    const { data: countries, isLoading, isError } = useQuery({
-        queryKey: ['countries'], // key
-        queryFn: fetchCountries // function
-    });
-
-    // states
-    const [errors, setErrors] = React.useState({}); // error object
-
-    /**
-     * DO NOT DELETE:
-     * fixing the issue concerning the disruption of the custom styling for the country selection autocomplete component 
-     */
-
-    // refs
     // ref of country autocomplete component
-    const countrySearchInputRef = React.useRef(null);
+    const regionsSearchInputRef = React.useRef(null);
 
-    // useEffects
     // mounting execution only once
     React.useEffect(() => {
         // Manually focus the input field until after component has been rendered
-        if (countrySearchInputRef.current) {
-        countrySearchInputRef.current.focus(); // 
+        if (regionsSearchInputRef.current) {
+            regionsSearchInputRef.current.focus(); // 
         }
     }, []); // <- the dependency array stops the component from getting focused multiple times on re-renders
 
-    // fetching regions (testing)
-    React.useEffect(() => {
-        countries.map((c))
-    }, []);
-
-    // handlers
     const handleSubmit = () => {}
+
     return (
         <main className='login-page'>
             <div className="login-form-container flex flex-col gap-4">
 
                 {/* title */}
                 <div className='login-title-container'>
-                    <h1 className='login-title text-2xl font-bold'>Welcome to Excelor Superadmin</h1> {/* title */}
-                    <em className='login-subtitle text-center'>select your region</em> {/* subtitle */}
+                    <h1 className='login-title text-2xl font-bold'>Excelor</h1> {/* title */}
+                    <em className='login-subtitle text-center'>Welcome back, Superadmin!</em> {/* subtitle */}
                 </div>
 
                 {/* form */}
                 <form className='login-form' onSubmit={handleSubmit}>
                     {/* region */}
                     <Box sx={{ width: 500 }}>
-                        {/* country autocomplete */}
+                        {/* regions autocomplete */}
                         <Autocomplete
                             disablePortal
-                            options={countries || []}
-                            loading={isLoading}
-                            getOptionLabel={(option) => option.name.common}
-                            isOptionEqualToValue={(option, value) => option.name.common === value.name.common}
+                            options={regions}
+                            getOptionLabel={(option) => option.name}
+                            isOptionEqualToValue={(option, value) => option.name === value.name}
                             renderInput={(params) => (
                                 <TextField
                                     {...params}
                                     required
-                                    name='country'
-                                    label="Choose your country"
-                                    inputRef={countrySearchInputRef} // Attach the ref to the TextField
+                                    name='regions'
+                                    label="Choose your region"
+                                    inputRef={regionsSearchInputRef} // Attach the ref to the TextField
                                     sx={{
                                         '& .MuiInputLabel-root.Mui-focused': {
                                             color: 'rgb(99, 99, 135)', // Change label color on focus
@@ -90,6 +66,23 @@ export default function Signup() {
                                 />
                             )}
                         />
+                    </Box>
+
+                    {/* verify submit button box */}
+                    <Box>
+                        {/* verify submit button */}
+                        <Button 
+                            variant="contained" 
+                            type='button'
+                            sx={{ 
+                                backgroundColor: 'rgb(99, 99, 135)', 
+                                padding: '8px 30px',
+                                textTransform: 'none',  // This stops the all-caps behavior
+                                float: 'right' 
+                            }}
+                        >
+                            Next
+                        </Button>
                     </Box>
                 </form>
             </div>

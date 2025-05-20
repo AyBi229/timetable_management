@@ -101,64 +101,25 @@ const Login = () => {
         {/* title */}
         <div className='login-title-container'>
           <h1 className='login-title text-2xl font-bold'>Welcome back!</h1> {/* title */}
-          <em className='login-subtitle text-center'>Log in as a member of your organisation</em> {/* subtitle */}
+          <em className='login-subtitle text-center'>Log in as the superuser</em> {/* subtitle */}
         </div>
 
         {/* form */}
-        <form className='login-form' onSubmit={handleVerification}>
-
-          {/* country autocomplete container */}
-          <Box sx={{ width: 500 }}>
-            {/* country autocomplete */}
-            <Autocomplete
-              disablePortal
-              options={countries || []}
-              loading={isLoading}
-              getOptionLabel={(option) => option.name.common}
-              isOptionEqualToValue={(option, value) => option.name.common === value.name.common}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  required
-                  name='country'
-                  label="Choose your country"
-                  inputRef={countrySearchInputRef} // Attach the ref to the TextField
-                  sx={{
-                    '& .MuiInputLabel-root.Mui-focused': {
-                      color: 'rgb(99, 99, 135)', // Change label color on focus
-                    },
-                    '& .MuiOutlinedInput-notchedOutline': {
-                      borderColor: 'rgb(99, 99, 135) !important', // Forcefully change border color on focus
-                    },
-                    '& .Mui-focused .MuiOutlinedInput-notchedOutline': {
-                      borderColor: 'rgb(99, 99, 135) !important', // Forcefully change border color on focus
-                    },
-                    '& .MuiInputLabel-root': {
-                      color: 'rgb(99, 99, 135)', // Initial label color
-                    },
-                    // Add a transition for smooth focusing
-                    '& .MuiOutlinedInput-root': {
-                      transition: 'border-color 0.3s ease',
-                    },
-                  }}
-                />
-              )}
-            />
-          </Box>
-
-          {/* first & last name inputs box */}
-          <Box sx={{ width: 500, display: 'flex', gap: '1rem' }}>
-            {/* first name input */}
-            <TextField 
-              id="first-name" 
-              error={ errors.first_name ? true : false }
-              helperText={ errors.first_name ? errors.first_name : '' }
-              label={ errors.first_name ? "Error" : "First Name" } 
+        <form
+          className='login-form' 
+          onSubmit={handleVerification}
+        >
+          <TextField 
+              id="email" 
+              error={ errors.email ? true : false }
+              helperText={ errors.email ? errors.email : '' }
+              label={ errors.email ? "Error" : "Email" } 
               variant="outlined"
               required
-              name='first_name'
+              name='email'
+              type='email'
               sx={{ 
-                width: '50%', 
+                width: '100%', 
                 '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
                   borderColor: 'rgb(99, 99, 135)',  // Change border color on focus
                 },
@@ -167,18 +128,17 @@ const Login = () => {
                 },
               }}
             />
-
-            {/* last name input */}
-            <TextField 
-              id="last-name" 
-              error={ errors.last_name ? true : false }
-              helperText={ errors.last_name ? errors.last_name : '' }
-              label={ errors.last_name ? "Error" : "Last Name" }
-              variant="outlined"
+            <TextField
+              type='password'
+              name='password'
+              id='password'
+              label={ errors.password ? "Error" : "Password" } 
+              error={ errors.password ? true : false }
+              helperText={ errors.password ? errors.password : '' }
+              variant='outlined'
               required
-              name='last_name'
               sx={{ 
-                width: '50%', 
+                width: '100%', 
                 '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
                   borderColor: 'rgb(99, 99, 135)',  // Change border color on focus
                 },
@@ -187,69 +147,21 @@ const Login = () => {
                 },
               }}
             />
-          </Box>
-
-          {/* organization email input */}
-          <TextField 
-            required
-            error={ errors.organization_email ? true : false }
-            helperText={ errors.organization_email ? errors.organization_email : '' }
-            sx={{
-              width: 500,
-              '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'rgb(99, 99, 135)',  // Change border color on focus
-              },
-              '& .MuiInputLabel-root.Mui-focused': {
-                color: 'rgb(99, 99, 135)',  // Change label color on focus
-              },
-            }}
-            id="organization-email" 
-            label={ errors.organization_email ? "Error" : "Organization Email" }
-            variant="outlined"
-            name='organization_email'
-          />
-        
-          {/* school name */}
-          <TextField 
-            required
-            sx={{
-              width: 500,
-              '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'rgb(99, 99, 135)',  // Change border color on focus
-              },
-              '& .MuiInputLabel-root.Mui-focused': {
-                color: 'rgb(99, 99, 135)',  // Change label color on focus
-              },
-            }}
-            id="school-name" 
-            error={ errors.school_name ? true : false }
-            helperText={ errors.school_name ? errors.school_name : '' }
-            label={ errors.school_name ? "Error" : "School Name" }
-            variant="outlined"
-            name='school_name'
-          />
-
-          {/* link to sign up */}
-          <Link href="/signup" underline="hover" sx={{ color: 'rgb(99, 99, 135)' }}>
-            First time here?
-          </Link>
-
-          {/* verify submit button box */}
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            {/* verify submit button */}
-            <Button 
-              variant="contained" 
-              type='submit'
-              sx={{ 
-                backgroundColor: 'rgb(99, 99, 135)', 
-                padding: '5px 30px',
-                textTransform: 'none'  // This stops the all-caps behavior
-              }}
-            >
-              Verify
-            </Button>
-          </Box>
-
+            <Box>
+              {/* verify submit button */}
+              <Button 
+                variant="contained" 
+                type='submit'
+                sx={{ 
+                  backgroundColor: 'rgb(99, 99, 135)', 
+                  padding: '8px 30px',
+                  textTransform: 'none',  // This stops the all-caps behavior
+                  float: 'right'
+                }}
+              >
+                Verify
+              </Button>
+            </Box>
         </form>
       </div>
     </main>
