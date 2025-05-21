@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\RegionalOfficeController;
+use App\Http\Controllers\DashboardController;
 
 // home page
 // method 1
@@ -32,7 +33,7 @@ Route::get('/signup', function () {
 
 // protected routes
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', fn () => Inertia::render('Dashboard'))->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index']);
     // regional offices
     Route::post('/regional-office', [RegionalOfficeController::class, 'store']);
 });
