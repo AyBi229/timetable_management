@@ -15,7 +15,7 @@ export default function Dashboard() {
     // show create form
     const [showCreateForm, setShowCreateForm] = useState(false);
     // region name error
-    const [nameError, setNameError] = useState(null)
+    const [error, setError] = useState(null)
 
     // handlers
     // create click
@@ -27,13 +27,21 @@ export default function Dashboard() {
         e.preventDefault();
         const formdata = new FormData(e.target);
         const region = formdata.get('region');
+        
+        if(!region) {
+            setError('a region must be selected')
+        } else {
+            setError(null)
+        }
+        console.log(region)
+        console.log(error)
 
         router.post('/regional-office', { region }, {
               onError: (errors) => {
                 console.error(errors);
             },
-              onFinish: () => {
-                console.log('regional office successfully created!')
+              onFinish: (res) => {
+                console.log(res)
             }
         })
     }
@@ -52,62 +60,72 @@ export default function Dashboard() {
             </div>}
             {/* create form */}
             {showCreateForm && (
-                <div className='border border-black-100 rounded-md py-5 px-10 sm:w-1/2 md:w-1/3 lg:w-1/4 space-y-5'>
+                <div className='border border-black-100 rounded-md py-5 px-10 sm:w-1/2 md:w-1/3 lg:w-1/4 space-y-5 max-h-[90vh] overflow-y-auto'>
                     <h3 className='text-center font-bold text-lg'>New regional office</h3>
-                    <form onSubmit={handleRegionFormSubmission} className='space-y-2'>
-                        <Box>
-                            <Autocomplete
-                                id="region"
-                                options={regions} // Add options here
-                                getOptionLabel={(option) => option.name}
-                                disabled={regions.length === 0} // Disable if schools list is empty
-                                renderInput={(params) => <TextField name='region' {...params} label="Choose your region" />}
-                                sx={{ 
-                                    width: '100%', 
-                                    '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                                        borderColor: 'rgb(99, 99, 135)',
-                                    },
-                                    '& .MuiInputLabel-root.Mui-focused': {
-                                        color: 'rgb(99, 99, 135)',
-                                    },
-                                }}
+
+                    <form onSubmit={handleRegionFormSubmission} className='space-y-4'>
+                    <Box className="w-full">
+                        <Autocomplete
+                        id="region"
+                        options={regions}
+                        getOptionLabel={(option) => option.name}
+                        disabled={regions.length === 0}
+                        renderInput={(params) => (
+                            <TextField
+                            {...params}
+                            name='region'
+                            error={error}
+                            helperText={error}
+                            label="Choose your region"
+                            fullWidth
+                            onChange={() => setError(null)}
                             />
-                        </Box>
-                        <Box>
-                            {/* verify submit button */}
-                            <Button 
-                                variant="outlined" 
-                                onClick={handleCancelForm}
-                                size='small'
-                                sx={{ 
-                                    color: 'rgb(99, 99, 135)', 
-                                    border: '1px solid rgb(99, 99, 135)', 
-                                    padding: '8px 20px',
-                                    textTransform: 'none',
-                                    '&:hover': { backgroundColor: 'rgb(250, 250, 255)' },
-                                    float: 'left'
-                                }}
-                            >
-                                Cancel
-                            </Button>
-                            <Button 
-                                variant="contained" 
-                                type='submit'
-                                size='small'
-                                sx={{ 
-                                    backgroundColor: 'rgb(99, 99, 135)', 
-                                    padding: '8px 20px',
-                                    textTransform: 'none',
-                                    float: 'right'
-                                }}
-                            >
-                                Create
-                            </Button>
-                        </Box>
+                        )}
+                        sx={{
+                            width: '100%',
+                            '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                            borderColor: 'rgb(99, 99, 135)',
+                            },
+                            '& .MuiInputLabel-root.Mui-focused': {
+                            color: 'rgb(99, 99, 135)',
+                            },
+                        }}
+                        />
+                    </Box>
+
+                    <Box className="w-full flex justify-between items-center pt-2">
+                        <Button
+                        variant="outlined"
+                        onClick={handleCancelForm}
+                        size='small'
+                        sx={{
+                            color: 'rgb(99, 99, 135)',
+                            border: '1px solid rgb(99, 99, 135)',
+                            padding: '8px 20px',
+                            textTransform: 'none',
+                            '&:hover': { backgroundColor: 'rgb(250, 250, 255)' },
+                        }}
+                        >
+                        Cancel
+                        </Button>
+
+                        <Button
+                        variant="contained"
+                        type='submit'
+                        size='small'
+                        sx={{
+                            backgroundColor: 'rgb(99, 99, 135)',
+                            padding: '8px 20px',
+                            textTransform: 'none',
+                        }}
+                        >
+                        Create
+                        </Button>
+                    </Box>
                     </form>
-                    
                 </div>
             )}
+
         </main>
     ) 
 }

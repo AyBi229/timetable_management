@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\RegionalOfficeController;
 
 // home page
 // method 1
@@ -32,6 +33,8 @@ Route::get('/signup', function () {
 // protected routes
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', fn () => inertia('Dashboard'));
+    // regional offices
+    Route::post('/regional-office', [RegionalOfficeController::class, 'store']);
 });
 
 // jwks
