@@ -10,6 +10,7 @@ import { router } from '@inertiajs/react';
 export default function Dashboard() {
     // retrieve the user
     const { auth } = usePage().props;
+    const { flash } = usePage().props;
     const { user } = auth;
 
     // states
@@ -17,6 +18,19 @@ export default function Dashboard() {
     const [showCreateForm, setShowCreateForm] = useState(false);
     // region name error
     const [error, setError] = useState(null)
+    // successful creation
+    const [success, setSuccess] = useState(flash.success);
+
+    // effects
+    useEffect(() => {
+        if (success) {
+            const timeout = setTimeout(() => {
+                setSuccess(null);
+            }, 5000);
+
+            return () => clearTimeout(timeout);
+        }
+    }, [success]);
 
     // handlers
     // create click
@@ -41,7 +55,7 @@ export default function Dashboard() {
               onError: (errors) => {
                 console.error(errors);
             },
-              onFinish: (res) => {
+              onSuccess: (res) => {
                 console.log(res)
                 setShowCreateForm(false);
             }
@@ -53,6 +67,11 @@ export default function Dashboard() {
     
     return (
         <main className='px-10'>
+            {success && (
+                <div className="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg transition-opacity duration-300 ease-in-out">
+                    {success}
+                </div>
+            )}
             <h3 className='text-center font-bold text-xl my-10'>Welcome Superuser <em style={{ color: 'rgb(99, 99, 135)' }}>{user.first_name} {user.last_name}</em></h3>
             {!showCreateForm && <div className='flex justify-center items-center'>
                 <div className='text-center border border-black-100 rounded-md py-5 px-10'>
