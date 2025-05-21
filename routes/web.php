@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\Auth\LoginController;
 
 // home page
 // method 1
@@ -21,10 +22,16 @@ Route::get('/', function () {
 Route::get('/login', function () {
     return Inertia::render('Login');
 });
+Route::post('/login', [LoginController::class, 'store'])->name('login');
 
 // signup page
 Route::get('/signup', function () {
     return Inertia::render('Signup');
+});
+
+// protected routes
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', fn () => inertia('Dashboard'));
 });
 
 // jwks

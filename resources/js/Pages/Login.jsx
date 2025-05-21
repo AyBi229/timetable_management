@@ -15,6 +15,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useQuery } from '@tanstack/react-query';
 import { fetchCountries } from '../Utilities/apis.js';
 import axios from 'axios';
+import { router } from '@inertiajs/react';
 
 const Login = () => {
   // states
@@ -40,6 +41,14 @@ const Login = () => {
     const email = formData.get('email');
     const password = formData.get('password');
     
+    router.post('/login', { email, password }, {
+      onError: (errors) => {
+        console.error(errors);
+      },
+      onFinish: () => {
+        console.log('finish')
+      }
+    })
   }
   
   return (
@@ -75,7 +84,7 @@ const Login = () => {
                 },
               }}
             />
-            
+
             <FormControl sx={{ width: '100%' }} variant="outlined">
               <InputLabel htmlFor="password">Password</InputLabel>
               <OutlinedInput
