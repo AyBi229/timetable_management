@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function Navbar() {
   return (
-    <nav className="bg-gray-800 p-4 shadow-lg">
+    <nav className="p-4 shadow-lg" style={{ backgroundColor: 'rgb(99, 99, 135)' }}>
       <ul className="flex space-x-6 justify-center">
         <li>
           <a
