@@ -11,6 +11,10 @@ createInertiaApp({
     const pages = import.meta.glob('./Pages/**/*.jsx', { eager: true })
     let page =  pages[`./Pages/${name}.jsx`]
 
+    if (!page || !page.default) {
+      throw new Error(`Page not found: ./Pages/${name}.jsx`);
+    }
+
     // default layout is applied to all pages except Login
     if (name == 'Login' || name == 'Signup') {
       page.default.layout = null
