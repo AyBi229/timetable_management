@@ -4,6 +4,7 @@ import { Autocomplete, Button } from '@mui/material';
 import { TextField } from '@mui/material';
 import { Box } from '@mui/system';
 import regions from '../../../regions.json'
+import { router } from '@inertiajs/react';
 
 /* only the super user and admins can access this page */
 export default function Dashboard() {
@@ -42,6 +43,7 @@ export default function Dashboard() {
             },
               onFinish: (res) => {
                 console.log(res)
+                setShowCreateForm(false);
             }
         })
     }

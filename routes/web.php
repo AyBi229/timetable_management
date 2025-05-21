@@ -32,7 +32,7 @@ Route::get('/signup', function () {
 
 // protected routes
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', fn () => inertia('Dashboard'));
+    Route::get('/dashboard', fn () => Inertia::render('Dashboard'))->name('dashboard');
     // regional offices
     Route::post('/regional-office', [RegionalOfficeController::class, 'store']);
 });

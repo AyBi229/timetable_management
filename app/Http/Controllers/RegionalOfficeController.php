@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Models\RegionalOffice;
+use App\Models\RegionalOffice;
+use Illuminate\Support\Facades\Redirect;
 
 class RegionalOfficeController extends Controller
 {
@@ -14,9 +15,7 @@ class RegionalOfficeController extends Controller
 
         $regionalOffice = RegionalOffice::create($validateData);
 
-        return response()->json([
-            'message' => 'Product created successfully!',
-            'product' => $product
-        ], 201);
+        return Redirect::route('dashboard')
+        ->with('success', 'Regional office created successfully!');
     }
 }
