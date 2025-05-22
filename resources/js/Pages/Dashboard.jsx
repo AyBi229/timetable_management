@@ -32,7 +32,7 @@ export default function Dashboard() {
     // effects
     // is it introduction time?
     useEffect(() => {
-        // console.log(moea)
+        console.log(admins)
         if (regional_offices?.length) {
             setIntro(false);
         } else {
@@ -98,15 +98,30 @@ export default function Dashboard() {
                 </div>
             </div>
             : <div className='flex'>
-                <div className='text-center border border-black-100 rounded-md py-5 px-10 size'>
+                <div className='text-center border border-black-100 rounded-md py-5 px-10'>
                     <h3 className='text-center text-lg space-x-2'>
                         <span className='font-semibold'>Regional Offices</span>
                         <b>{regional_offices?.length}</b>
                     </h3>
                 </div>
-                {/* <div><h3 className='text-center font-bold text-lg'>Complexes {complexes.length}</h3></div>
-                <div><h3 className='text-center font-bold text-lg'>Institutions {institutions.length}</h3></div>
-                <div><h3 className='text-center font-bold text-lg'>Admins {admins.length}</h3></div> */}
+                <div className='text-center border border-black-100 rounded-md py-5 px-10'>
+                    <h3 className='text-center text-lg'>
+                        <span className='font-semibold'>Complexes</span>
+                        <b>{complexes.length}</b>
+                    </h3>
+                </div>
+                <div className='text-center border border-black-100 rounded-md py-5 px-10'>
+                    <h3 className='text-center text-lg'>
+                        <span className='font-semibold'>Institutions</span>
+                        <b>{institutions.length}</b>
+                    </h3>
+                </div>
+                <div className='text-center border border-black-100 rounded-md py-5 px-10'>
+                    <h3 className='text-center text-lg'>
+                        <span className='font-semibold'>Admins</span>
+                        <b>{admins.length}</b>
+                    </h3>
+                </div>
             </div>}
             {/* create form */}
             {showCreateForm && (
