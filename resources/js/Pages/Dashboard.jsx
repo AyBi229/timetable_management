@@ -17,7 +17,7 @@ export default function Dashboard() {
     const { complexes } = usePage().props;
     const { institutions } = usePage().props;
     const { admins } = usePage().props;
-    const moea = usePage().props
+    // const moea = usePage().props
 
     // states
     // show create form
@@ -32,7 +32,7 @@ export default function Dashboard() {
     // effects
     // is it introduction time?
     useEffect(() => {
-        console.log(moea)
+        // console.log(moea)
         if (regional_offices?.length) {
             setIntro(false);
         } else {
@@ -97,8 +97,13 @@ export default function Dashboard() {
                     <Button onClick={handleCreateClick} sx={{ color: 'rgb(127, 127, 255)', '&:hover': { backgroundColor: 'rgb(250, 250, 255)' } }}>Create</Button>
                 </div>
             </div>
-            : <div>
-                <div><h3 className='text-center font-bold text-lg'>Regional office {regional_offices?.length}</h3></div>
+            : <div className='flex'>
+                <div className='text-center border border-black-100 rounded-md py-5 px-10 size'>
+                    <h3 className='text-center text-lg space-x-2'>
+                        <span className='font-semibold'>Regional Offices</span>
+                        <b>{regional_offices?.length}</b>
+                    </h3>
+                </div>
                 {/* <div><h3 className='text-center font-bold text-lg'>Complexes {complexes.length}</h3></div>
                 <div><h3 className='text-center font-bold text-lg'>Institutions {institutions.length}</h3></div>
                 <div><h3 className='text-center font-bold text-lg'>Admins {admins.length}</h3></div> */}
