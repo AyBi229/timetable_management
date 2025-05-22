@@ -44,6 +44,7 @@ const Login = () => {
     router.post('/login', { email, password }, {
       onError: (errors) => {
         console.error(errors);
+        setError(errors.email)
       },
       onFinish: () => {
         console.log('finish')
@@ -59,7 +60,7 @@ const Login = () => {
         <div className='login-title-container'>
           <h1 className='login-title text-2xl font-bold'>Welcome back!</h1> {/* title */}
           <em className='login-subtitle text-center'>Log in as superuser</em> {/* subtitle */}
-          { error && <small className='text-red-500'>One of the credentials are incorrect</small> }
+          { error && <small className='text-red-500'>{error}</small> }
         </div>
 
         {/* form */}
