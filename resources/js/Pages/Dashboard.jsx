@@ -101,25 +101,25 @@ export default function Dashboard() {
                 <div className='text-center border border-black-100 rounded-md py-5 px-10'>
                     <h3 className='text-center text-lg space-x-2'>
                         <span className='font-semibold'>Regional Offices</span>
-                        <b className='text-orange-500 bg-orange-100 rounded-full p-2'>{regional_offices?.length}</b>
+                        <b className='text-orange-500 bg-orange-100 rounded-full px-3 py-1'>{regional_offices?.length}</b>
                     </h3>
                 </div>
                 <div className='text-center border border-black-100 rounded-md py-5 px-10'>
                     <h3 className='text-center text-lg space-x-2'>
                         <span className='font-semibold'>Complexes</span>
-                        <b>{complexes.length}</b>
+                        <b className='text-yellow-500 bg-yellow-100 rounded-full px-3 py-1'>{complexes.length}</b>
                     </h3>
                 </div>
                 <div className='text-center border border-black-100 rounded-md py-5 px-10'>
                     <h3 className='text-center text-lg space-x-2'>
                         <span className='font-semibold'>Institutions</span>
-                        <b>{institutions.length}</b>
+                        <b className='text-green-500 bg-green-100 rounded-full px-3 py-1'>{institutions.length}</b>
                     </h3>
                 </div>
                 <div className='text-center border border-black-100 rounded-md py-5 px-10'>
                     <h3 className='text-center text-lg space-x-2'>
                         <span className='font-semibold'>Admins</span>
-                        <b>{admins.superadmins.length + admins.regional_admins.length + admins.institution_admins.length}</b>
+                        <b className='text-cyan-500 bg-cyan-100 rounded-full px-3 py-1'>{admins.superadmins.length + admins.regional_admins.length + admins.institution_admins.length}</b>
                     </h3>
                 </div>
             </div>}
