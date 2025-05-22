@@ -97,29 +97,29 @@ export default function Dashboard() {
                     <Button onClick={handleCreateClick} sx={{ color: 'rgb(127, 127, 255)', '&:hover': { backgroundColor: 'rgb(250, 250, 255)' } }}>Create</Button>
                 </div>
             </div>
-            : <div className='flex'>
+            : <div className='flex gap-10 justify-center items-center'>
                 <div className='text-center border border-black-100 rounded-md py-5 px-10'>
                     <h3 className='text-center text-lg space-x-2'>
                         <span className='font-semibold'>Regional Offices</span>
-                        <b>{regional_offices?.length}</b>
+                        <b className='text-orange-500 bg-orange-100 rounded-full p-2'>{regional_offices?.length}</b>
                     </h3>
                 </div>
                 <div className='text-center border border-black-100 rounded-md py-5 px-10'>
-                    <h3 className='text-center text-lg'>
+                    <h3 className='text-center text-lg space-x-2'>
                         <span className='font-semibold'>Complexes</span>
                         <b>{complexes.length}</b>
                     </h3>
                 </div>
                 <div className='text-center border border-black-100 rounded-md py-5 px-10'>
-                    <h3 className='text-center text-lg'>
+                    <h3 className='text-center text-lg space-x-2'>
                         <span className='font-semibold'>Institutions</span>
                         <b>{institutions.length}</b>
                     </h3>
                 </div>
                 <div className='text-center border border-black-100 rounded-md py-5 px-10'>
-                    <h3 className='text-center text-lg'>
+                    <h3 className='text-center text-lg space-x-2'>
                         <span className='font-semibold'>Admins</span>
-                        <b>{admins.length}</b>
+                        <b>{admins.superadmins.length + admins.regional_admins.length + admins.institution_admins.length}</b>
                     </h3>
                 </div>
             </div>}
