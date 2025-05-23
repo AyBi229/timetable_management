@@ -5,6 +5,8 @@ use Inertia\Inertia;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\RegionalOfficeController;
 use App\Http\Controllers\DashboardController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 // home page
 // method 1
@@ -14,7 +16,7 @@ use App\Http\Controllers\DashboardController;
 
 // method 2
 Route::get('/', function () {
-    return Inertia::render('Home', ["name" => "Aya"]);
+    return Inertia::render('Home', ["app" => "Excelor"]);
 });
 
 // method 3
@@ -36,6 +38,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index']);
     // regional offices
     Route::post('/regional-office', [RegionalOfficeController::class, 'store']);
+    // logout
+    Route::post('/logout', function (Request $request) {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return Inertia::location('/login');
+    })->name('logout');
 });
 
 // jwks
