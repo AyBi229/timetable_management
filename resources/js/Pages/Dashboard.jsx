@@ -28,11 +28,16 @@ export default function Dashboard() {
     const [success, setSuccess] = useState(flash.success);
     // introduction msg
     const [intro, setIntro] = useState(null)
+    // is the region card open or not?
+    const [regionOpen, setRegionOpen] = useState(false);
+    const [complexOpen, setComplexOpen] = useState(false);
+    const [institutionOpen, setInstitutionOpen] = useState(false);
+    const [adminOpen, setAdminOpen] = useState(false);
 
     // effects
     // is it introduction time?
     useEffect(() => {
-        console.log(admins)
+        console.log(regional_offices)
         if (regional_offices?.length) {
             setIntro(false);
         } else {
@@ -82,6 +87,24 @@ export default function Dashboard() {
     const handleCancelForm = () => {
         setShowCreateForm(false)
     }
+    // cards openings
+    const handleCardOpen = (card) => {
+        switch(card) {
+            case 'region':
+                setRegionOpen(prev => !prev)
+                break;
+            case 'complex':
+                setComplexOpen(prev => !prev)
+                break
+            case 'intitution':
+                setInstitutionOpen(prev => !prev)
+                break
+            case 'admin':
+                setAdminOpen(prev => !prev)
+            default:
+                console.error('error in handle card open name')
+        }
+    }
     
     return (
         <main className='px-10'>
@@ -98,11 +121,66 @@ export default function Dashboard() {
                 </div>
             </div>
             : <div className='flex gap-10 justify-center items-center'>
-                <div className='text-center border border-black-100 rounded-md py-5 px-10'>
+                <div onClick={()=> handleCardOpen('region')} className='hover:cursor-pointer text-center border border-black-100 rounded-md py-5 px-10 space-y-5'>
                     <h3 className='text-center text-lg space-x-2'>
                         <span className='font-semibold'>Regional Offices</span>
                         <b className='text-orange-500 bg-orange-100 rounded-full px-3 py-1'>{regional_offices?.length}</b>
                     </h3>
+                    {regionOpen && (
+                        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                            <table class="w-full text-sm text-left rtl:text-right text-gray-500">
+                                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3">
+                                            Region
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Admin
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Action
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="bg-white border-b border-gray-200">
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                            Apple MacBook Pro 17"
+                                        </th>
+                                        <td class="px-6 py-4">
+                                            Silver
+                                        </td>
+                                        <td class="px-6 py-4 text-right">
+                                            <a href="#" class="font-medium text-blue-600 hover:underline">Edit</a>
+                                        </td>
+                                    </tr>
+                                    <tr class="bg-white border-b border-gray-200">
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 space-nowrap">
+                                            Microsoft Surface Pro
+                                        </th>
+                                        <td class="px-6 py-4">
+                                            White
+                                        </td>
+                                        <td class="px-6 py-4 text-right">
+                                            <a href="#" class="font-medium text-blue-600 hover:underline">Edit</a>
+                                        </td>
+                                    </tr>
+                                    <tr class="bg-white">
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                            Magic Mouse 2
+                                        </th>
+                                        <td class="px-6 py-4">
+                                            Black
+                                        </td>
+                                        <td class="px-6 py-4 text-right">
+                                            <a href="#" class="font-medium text-blue-600 hover:underline">Edit</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
+                    
                 </div>
                 <div className='text-center border border-black-100 rounded-md py-5 px-10'>
                     <h3 className='text-center text-lg space-x-2'>
