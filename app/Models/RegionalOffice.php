@@ -9,4 +9,8 @@ class RegionalOffice extends Model
     protected $fillable = [
         'region',
     ];
+
+    function regionalAdmins() {
+        return $this->hasMany(RegionalAdmin::class, 'regional_office_id');
+    }
 }

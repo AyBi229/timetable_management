@@ -5,6 +5,7 @@ import { TextField } from '@mui/material';
 import { Box } from '@mui/system';
 import regions from '../../../regions.json'
 import { router } from '@inertiajs/react';
+import RegionalOfficesCard from '../Components/RegionalOfficesCard';
 
 /* only the super user and admins can access this page */
 export default function Dashboard() {
@@ -13,7 +14,7 @@ export default function Dashboard() {
     const { user } = auth;
     const { flash } = usePage().props;
     // modules
-    const { regional_offices } = usePage().props;
+    const { regional_offices: regionalOffices } = usePage().props;
     const { complexes } = usePage().props;
     const { institutions } = usePage().props;
     const { admins } = usePage().props;
@@ -37,13 +38,13 @@ export default function Dashboard() {
     // effects
     // is it introduction time?
     useEffect(() => {
-        console.log(regional_offices)
-        if (regional_offices?.length) {
+        console.log(regionalOffices)
+        if (regionalOffices?.length) {
             setIntro(false);
         } else {
             setIntro(true)
         }
-    }, [regional_offices]);
+    }, [regionalOffices]);
     // successful msg display
     useEffect(() => {
         if (success) {
@@ -124,61 +125,10 @@ export default function Dashboard() {
                 <div onClick={()=> handleCardOpen('region')} className='hover:cursor-pointer text-center border border-black-100 rounded-md py-5 px-10 space-y-5'>
                     <h3 className='text-center text-lg space-x-2'>
                         <span className='font-semibold'>Regional Offices</span>
-                        <b className='text-orange-500 bg-orange-100 rounded-full px-3 py-1'>{regional_offices?.length}</b>
+                        <b className='text-orange-500 bg-orange-100 rounded-full px-3 py-1'>{regionalOffices?.length}</b>
                     </h3>
                     {regionOpen && (
-                        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                            <table class="w-full text-sm text-left rtl:text-right text-gray-500">
-                                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                                    <tr>
-                                        <th scope="col" class="px-6 py-3">
-                                            Region
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Admin
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Action
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="bg-white border-b border-gray-200">
-                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                            Apple MacBook Pro 17"
-                                        </th>
-                                        <td class="px-6 py-4">
-                                            Silver
-                                        </td>
-                                        <td class="px-6 py-4 text-right">
-                                            <a href="#" class="font-medium text-blue-600 hover:underline">Edit</a>
-                                        </td>
-                                    </tr>
-                                    <tr class="bg-white border-b border-gray-200">
-                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 space-nowrap">
-                                            Microsoft Surface Pro
-                                        </th>
-                                        <td class="px-6 py-4">
-                                            White
-                                        </td>
-                                        <td class="px-6 py-4 text-right">
-                                            <a href="#" class="font-medium text-blue-600 hover:underline">Edit</a>
-                                        </td>
-                                    </tr>
-                                    <tr class="bg-white">
-                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                            Magic Mouse 2
-                                        </th>
-                                        <td class="px-6 py-4">
-                                            Black
-                                        </td>
-                                        <td class="px-6 py-4 text-right">
-                                            <a href="#" class="font-medium text-blue-600 hover:underline">Edit</a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                        <RegionalOfficesCard regionalOffices={regionalOffices} />
                     )}
                     
                 </div>
@@ -207,64 +157,64 @@ export default function Dashboard() {
                     <h3 className='text-center font-bold text-lg'>New regional office</h3>
 
                     <form onSubmit={handleRegionFormSubmission} className='space-y-4'>
-                    <Box className="w-full">
-                        <Autocomplete
-                        id="region"
-                        options={regions}
-                        getOptionLabel={(option) => option.name}
-                        disabled={regions.length === 0}
-                        renderInput={(params) => (
-                            <TextField
-                            {...params}
-                            name='region'
-                            error={error}
-                            helperText={error}
-                            label="Choose your region"
-                            fullWidth
-                            onChange={() => setError(null)}
+                        <Box className="w-full">
+                            <Autocomplete
+                            id="region"
+                            options={regions}
+                            getOptionLabel={(option) => option.name}
+                            disabled={regions.length === 0}
+                            renderInput={(params) => (
+                                <TextField
+                                {...params}
+                                name='region'
+                                error={error}
+                                helperText={error}
+                                label="Choose your region"
+                                fullWidth
+                                onChange={() => setError(null)}
+                                />
+                            )}
+                            sx={{
+                                width: '100%',
+                                '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                borderColor: 'rgb(99, 99, 135)',
+                                },
+                                '& .MuiInputLabel-root.Mui-focused': {
+                                color: 'rgb(99, 99, 135)',
+                                },
+                            }}
                             />
-                        )}
-                        sx={{
-                            width: '100%',
-                            '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                            borderColor: 'rgb(99, 99, 135)',
-                            },
-                            '& .MuiInputLabel-root.Mui-focused': {
-                            color: 'rgb(99, 99, 135)',
-                            },
-                        }}
-                        />
-                    </Box>
+                        </Box>
 
-                    <Box className="w-full flex justify-between items-center pt-2">
-                        <Button
-                        variant="outlined"
-                        onClick={handleCancelForm}
-                        size='small'
-                        sx={{
-                            color: 'rgb(99, 99, 135)',
-                            border: '1px solid rgb(99, 99, 135)',
-                            padding: '8px 20px',
-                            textTransform: 'none',
-                            '&:hover': { backgroundColor: 'rgb(250, 250, 255)' },
-                        }}
-                        >
-                        Cancel
-                        </Button>
+                        <Box className="w-full flex justify-between items-center pt-2">
+                            <Button
+                            variant="outlined"
+                            onClick={handleCancelForm}
+                            size='small'
+                            sx={{
+                                color: 'rgb(99, 99, 135)',
+                                border: '1px solid rgb(99, 99, 135)',
+                                padding: '8px 20px',
+                                textTransform: 'none',
+                                '&:hover': { backgroundColor: 'rgb(250, 250, 255)' },
+                            }}
+                            >
+                            Cancel
+                            </Button>
 
-                        <Button
-                        variant="contained"
-                        type='submit'
-                        size='small'
-                        sx={{
-                            backgroundColor: 'rgb(99, 99, 135)',
-                            padding: '8px 20px',
-                            textTransform: 'none',
-                        }}
-                        >
-                        Create
-                        </Button>
-                    </Box>
+                            <Button
+                            variant="contained"
+                            type='submit'
+                            size='small'
+                            sx={{
+                                backgroundColor: 'rgb(99, 99, 135)',
+                                padding: '8px 20px',
+                                textTransform: 'none',
+                            }}
+                            >
+                            Create
+                            </Button>
+                        </Box>
                     </form>
                 </div>
             )}

@@ -35,8 +35,10 @@ Route::get('/signup', function () {
 
 // protected routes
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index']);
+    // dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     // regional offices
+    Route::get('/regional-offices', [RegionalOfficeController::class, 'index']);
     Route::post('/regional-office', [RegionalOfficeController::class, 'store']);
     // logout
     Route::post('/logout', function (Request $request) {

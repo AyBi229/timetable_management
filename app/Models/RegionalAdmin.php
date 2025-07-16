@@ -10,4 +10,9 @@ class RegionalAdmin extends Model
         'user_id',
         'regional_office_id',
     ];
+
+    public function regionalOffice() {
+        return $this->belongsTo(RegionalOffice::class);
+    }
+
 }

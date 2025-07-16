@@ -14,7 +14,7 @@ use Inertia\Inertia;
 class DashboardController extends Controller
 {
     function index() {
-        $regionalOffices = RegionalOffice::all();
+        $regionalOffices = RegionalOffice::with('regionalAdmins')->get();
         $complexes = Complex::all();
         $institutions = Institution::all();
         $admins = [
