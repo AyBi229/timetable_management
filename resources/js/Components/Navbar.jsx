@@ -23,12 +23,26 @@ export default function Navbar() {
             </button>
           )
           : (
-            <a
+            <ul>
+              <li>
+                <a
               href="/login"
               className="text-white hover:text-gray-300 transition-colors duration-300"
             >
               Login
             </a>
+              </li>
+              <li>
+                <a
+              href="/signup"
+              className="text-white hover:text-gray-300 transition-colors duration-300"
+            >
+              Signup
+            </a>
+              </li>
+            </ul>
+            
+            
           )}
         </li>
       </ul>
