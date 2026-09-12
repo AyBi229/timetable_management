@@ -132,7 +132,7 @@ const Login = () => {
                   float: 'right'
                 }}
               >
-                Verify
+                Log in
               </Button>
             </Box>
         </form>

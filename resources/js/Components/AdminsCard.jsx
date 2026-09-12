@@ -1,19 +1,15 @@
 import { router } from "@inertiajs/react";
 import { useState, useEffect } from "react";
 
-export default function RegionalOfficesCard({ regionalOffices, regional_admins, setAdminOpen }) {
+export default function AdminsCard({ regionalOffice }) {
     const [showAmins, setShowAdmins] = useState(false)
 
     const assignAdmin = () => {
         setShowAdmins(true)
     };
-
-    const handleAddingAdmin = () => {
-        
-    }
     return (
-        <div className="shadow-md sm:rounded-lg h-auto">
-            <table className="w-full text-sm text-left rtl:text-right text-gray-500 relative">
+        <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <table className="w-full text-sm text-left rtl:text-right text-gray-500">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                     <tr>
                         <th scope="col" className="px-6 py-3">
@@ -37,7 +33,7 @@ export default function RegionalOfficesCard({ regionalOffices, regional_admins, 
                         return (
                             <tr
                                 key={id}
-                                className="bg-white border-b border-gray-200 relative"
+                                className="bg-white border-b border-gray-200"
                             >
                                 <th
                                     scope="row"
@@ -83,13 +79,13 @@ export default function RegionalOfficesCard({ regionalOffices, regional_admins, 
                                             Assign
                                         </button>
                                     )}
-                                    {showAmins && <ul className="absolute border bg-white rounded px-4 py-2 w-max">
+                                    <ul className="absolute">
                                         {regional_admins.length ? regional_admins.map(regional_admin => {
                                             return(
                                                 <li>{regional_admin.user.first_name} {regional_admin.user.last_name}</li>
                                             )
-                                        }) : <li><button onClick={handleAddingAdmin} className="px-2 py-1 hover:bg-[#636387] rounded transition  hover:text-white border border-[#636387] text-[#636387]">Add admin</button></li>}
-                                    </ul>}
+                                        }) : <li><button onClick={() => setAdminOpen(true)}>Add admin</button></li>}
+                                    </ul>
                                 </td>
                                 <td className="px-6 py-4 text-right">
                                     <a

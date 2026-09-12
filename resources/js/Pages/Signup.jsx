@@ -3,6 +3,7 @@ import { Autocomplete, Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import regions from "../../../regions.json";
 import React, { useState } from "react";
+import "../../css/signup.css";
 
 export default function Signup() {
     const [step, setStep] = useState(1);
@@ -44,24 +45,67 @@ export default function Signup() {
                 {/* form */}
                 <form className="login-form" onSubmit={handleSubmit}>
                     {/* region */}
-                    <Box sx={{ width: 500 }}>
-                        {/* regions autocomplete */}
-                        <Autocomplete
-                            disablePortal
-                            options={regions}
-                            value={selectedRegion}
-                            onChange={(_, value) => setSelectedRegion(value)}
-                            getOptionLabel={(option) => option.name}
-                            isOptionEqualToValue={(option, value) =>
-                                option.name === value.name
-                            }
-                            renderInput={(params) => (
+                    <Box sx={{ width: 500 }} className="signup-slider">
+                        <div
+                            className={`signup-track ${
+                                step === 2 ? "signup-track-next" : ""
+                            }`}
+                        >
+                            {/* regions autocomplete */}
+                            <section className="signup-step">
+                                {" "}
+                                <Autocomplete
+                                    disablePortal
+                                    options={regions}
+                                    value={selectedRegion}
+                                    onChange={(_, value) =>
+                                        setSelectedRegion(value)
+                                    }
+                                    getOptionLabel={(option) => option.name}
+                                    isOptionEqualToValue={(option, value) =>
+                                        option.name === value.name
+                                    }
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            required
+                                            name="regions"
+                                            label="Choose your region"
+                                            inputRef={regionsSearchInputRef} // Attach the ref to the TextField
+                                            sx={{
+                                                "& .MuiInputLabel-root.Mui-focused":
+                                                    {
+                                                        color: "rgb(99, 99, 135)", // Change label color on focus
+                                                    },
+                                                "& .MuiOutlinedInput-notchedOutline":
+                                                    {
+                                                        borderColor:
+                                                            "rgb(99, 99, 135) !important", // Forcefully change border color on focus
+                                                    },
+                                                "& .Mui-focused .MuiOutlinedInput-notchedOutline":
+                                                    {
+                                                        borderColor:
+                                                            "rgb(99, 99, 135) !important", // Forcefully change border color on focus
+                                                    },
+                                                "& .MuiInputLabel-root": {
+                                                    color: "rgb(99, 99, 135)", // Initial label color
+                                                },
+                                                // Add a transition for smooth focusing
+                                                "& .MuiOutlinedInput-root": {
+                                                    transition:
+                                                        "border-color 0.3s ease",
+                                                },
+                                            }}
+                                        />
+                                    )}
+                                />
+                            </section>
+                            <section className="signup-step">
+                                {" "}
                                 <TextField
-                                    {...params}
                                     required
-                                    name="regions"
-                                    label="Choose your region"
-                                    inputRef={regionsSearchInputRef} // Attach the ref to the TextField
+                                    name="first_name"
+                                    label="First name"
                                     sx={{
                                         "& .MuiInputLabel-root.Mui-focused": {
                                             color: "rgb(99, 99, 135)", // Change label color on focus
@@ -85,15 +129,36 @@ export default function Signup() {
                                         },
                                     }}
                                 />
-                            )}
-                        />
+                                <TextField
+                                    required
+                                    name="last_name"
+                                    label="Last name"
+                                    sx={{
+                                        "& .MuiInputLabel-root.Mui-focused": {
+                                            color: "rgb(99, 99, 135)", // Change label color on focus
+                                        },
+                                        "& .MuiOutlinedInput-notchedOutline": {
+                                            borderColor:
+                                                "rgb(99, 99, 135) !important", // Forcefully change border color on focus
+                                        },
+                                        "& .Mui-focused .MuiOutlinedInput-notchedOutline":
+                                            {
+                                                borderColor:
+                                                    "rgb(99, 99, 135) !important", // Forcefully change border color on focus
+                                            },
+                                        "& .MuiInputLabel-root": {
+                                            color: "rgb(99, 99, 135)", // Initial label color
+                                        },
+                                        // Add a transition for smooth focusing
+                                        "& .MuiOutlinedInput-root": {
+                                            transition:
+                                                "border-color 0.3s ease",
+                                        },
+                                    }}
+                                />
+                            </section>
+                        </div>
                     </Box>
-                    {step === 2 && (
-                        <Box>
-                            <TextField required name="first_name" label="First name" />
-                            <TextField required name="last_name" label="Last name" />
-                        </Box>
-                    )}
 
                     {/* verify submit button box */}
                     <Box>

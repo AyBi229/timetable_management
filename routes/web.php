@@ -1,5 +1,6 @@
 <?php
 
+use App\Mail\WelcomeEmail;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\Auth\LoginController;
@@ -53,4 +54,10 @@ Route::middleware('auth')->group(function () {
 Route::get('/jwks', function () {
     $jwks = json_decode(file_get_contents(storage_path('keys/jwks.json')), true);
     return response()->json($jwks);
+});
+
+// send verification email
+Route::get('send-verification-email', function ($recipient) {
+    Mail::to($recipient)->send(new WelcomeEmail($recipient));
+    return 'Email sent successfully!';
 });

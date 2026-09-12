@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('common_modules', function (Blueprint $table) {
             $table->id();
             $table->foreignId('module_id')->constrained('modules')->onDelete('cascade'); // module id
+            $table->foreignId('field_id')->constrained('fields')->onDelete('cascade'); // field id
             $table->timestamps();
         });
     }

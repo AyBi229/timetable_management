@@ -12,6 +12,7 @@ export default function Dashboard() {
     // retrieve the user
     const { auth } = usePage().props;
     const { user } = auth;
+    console.log(user)
     const { flash } = usePage().props;
     // modules
     const { regional_offices: regionalOffices } = usePage().props;
@@ -122,13 +123,13 @@ export default function Dashboard() {
                 </div>
             </div>
             : <div className='flex gap-10 justify-center items-center'>
-                <div onClick={()=> handleCardOpen('region')} className='hover:cursor-pointer text-center border border-black-100 rounded-md py-5 px-10 space-y-5'>
+                <div onClick={()=> setRegionOpen(true)} className='hover:cursor-pointer text-center border border-black-100 rounded-md py-5 px-10 space-y-5'>
                     <h3 className='text-center text-lg space-x-2'>
                         <span className='font-semibold'>Regional Offices</span>
                         <b className='text-orange-500 bg-orange-100 rounded-full px-3 py-1'>{regionalOffices?.length}</b>
                     </h3>
                     {regionOpen && (
-                        <RegionalOfficesCard regionalOffices={regionalOffices} />
+                        <RegionalOfficesCard regionalOffices={regionalOffices} regional_admins={admins.regional_admins} setAdminOpen={setAdminOpen} />
                     )}
                     
                 </div>
@@ -144,11 +145,14 @@ export default function Dashboard() {
                         <b className='text-green-500 bg-green-100 rounded-full px-3 py-1'>{institutions.length}</b>
                     </h3>
                 </div>
-                <div className='text-center border border-black-100 rounded-md py-5 px-10'>
+                <div className='text-center border border-black-100 rounded-md py-5 px-10 h-auto'>
                     <h3 className='text-center text-lg space-x-2'>
                         <span className='font-semibold'>Admins</span>
                         <b className='text-cyan-500 bg-cyan-100 rounded-full px-3 py-1'>{admins.superadmins.length + admins.regional_admins.length + admins.institution_admins.length}</b>
                     </h3>
+                    {adminOpen && (
+                        <RegionalOfficesCard />
+                    )}
                 </div>
             </div>}
             {/* create form */}
