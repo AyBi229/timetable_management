@@ -10,4 +10,13 @@ class InstitutionAdmin extends Model
         'institution_id',
         'user_id',
     ];
+
+    function institution() {
+        return $this->belongsTo(Institution::class);
+    }
+
+    function user() {
+        return $this->belongsTo(User::class);
+    }
+
 }

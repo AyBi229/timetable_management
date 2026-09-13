@@ -49,4 +49,20 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    function instructors() {
+        return $this->hasMany(Instructor::class, 'user_id');
+    }
+
+    function institutionAdmins() {
+        return $this->hasMany(InstitutionAdmin::class, 'user_id');
+    }
+
+    function regionalAdmins() {
+        return $this->hasMany(RegionalAdmin::class, 'user_id');
+    }
+
+    function superAdmins() {
+        return $this->hasMany(SuperAdmin::class, 'user_id');
+    }
 }

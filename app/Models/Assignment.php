@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Assignment extends Model
 {
 
-    protected $fillables = [
+    protected $fillable = [
         'total_hrs_completed',
         'online_hrs_completed',
         'present_hrs_completed',
@@ -17,19 +17,23 @@ class Assignment extends Model
         'instructor_id',
     ];
 
-    function Module() {
+    function Module()
+    {
         return $this->belongsTo(Module::class);
     }
 
-    function Group() {
+    function group()
+    {
         return $this->belongsTo(Group::class);
     }
 
-    function Instructor() {
+    function instructor()
+    {
         return $this->belongsTo(Instructor::class);
     }
 
-    function ClassSessions() {
+    function classSessions()
+    {
         return $this->hasMany(ClassSession::class, 'assignment_id');
     }
 }

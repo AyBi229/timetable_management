@@ -10,4 +10,12 @@ class Complex extends Model
         'name',
         'office_id'
     ];
+
+    function office() {
+        return $this->belongsTo(RegionalOffice::class);
+    }
+
+    function institutions() {
+        return $this->hasMany(Institution::class, 'complex_id');
+    }
 }

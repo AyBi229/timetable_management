@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ClassSession extends Model
 {
-    protected $fillables = [
+    protected $fillable = [
         'classroom',
         'exam',
         'period',
@@ -18,11 +18,13 @@ class ClassSession extends Model
         'timetable_id'
     ];
 
-    function Assignment() {
+    function assignment()
+    {
         return $this->belongsTo(Assignment::class);
     }
 
-    function Timetable() {
+    function timetable()
+    {
         return $this->belongsTo(Timetable::class);
     }
 }

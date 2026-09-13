@@ -11,4 +11,12 @@ class Institution extends Model
         'name',
         'complex_id'
     ];
+
+    function complex() {
+        return $this->belongsTo(Complex::class);
+    }
+
+    function admins() {
+        return $this->hasMany(Institution::class, 'institution_id');
+    }
 }

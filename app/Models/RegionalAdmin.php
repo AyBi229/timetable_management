@@ -15,4 +15,7 @@ class RegionalAdmin extends Model
         return $this->belongsTo(RegionalOffice::class);
     }
 
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
 }
