@@ -1,21 +1,25 @@
-import { defineConfig } from 'vite';
-import laravel from 'laravel-vite-plugin';
-import react from '@vitejs/plugin-react';
+import { defineConfig } from "vite";
+import laravel from "laravel-vite-plugin";
+import react from "@vitejs/plugin-react";
 
 export default defineConfig({
     plugins: [
         laravel({
-            input: ['resources/css/app.css', 'resources/js/app.jsx'],
+            input: ["resources/css/app.css", "resources/js/app.jsx"],
             refresh: true,
         }),
         react(),
     ],
     resolve: {
         alias: {
-            '@': '/resources/js',
+            "@": "/resources/js",
         },
+        dedupe: ["react", "react-dom", "@emotion/react", "@emotion/styled"],
     },
     optimizeDeps: {
-        include: ['@mui/icons-material/Visibility', '@mui/icons-material/VisibilityOff'],
-    }
+        include: [
+            "@mui/icons-material/Visibility",
+            "@mui/icons-material/VisibilityOff",
+        ],
+    },
 });

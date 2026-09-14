@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.signup-slider {
+    width: 100%;
+    overflow: hidden;
+    padding: 10px 0px;
+}
+
+.signup-track {
+    display: flex;
+    width: 200%;
+    transition: transform 400ms ease-in-out;
+}
+
+.signup-track-next {
+    transform: translateX(-50%);
+}
+
+.signup-step {
+    flex-direction: column;
+    display: flex;
+    gap: 10px;
+    flex: 0 0 50%;
+    width: 50%;
+    padding: 0px 50px;
+}

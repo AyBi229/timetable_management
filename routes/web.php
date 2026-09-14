@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function () {
         $request->session()->regenerateToken();
         return Inertia::location('/login');
     })->name('logout');
+
 });
 
 // jwks

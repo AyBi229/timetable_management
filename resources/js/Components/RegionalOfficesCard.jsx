@@ -1,15 +1,18 @@
 import { router } from "@inertiajs/react";
 import { useState, useEffect } from "react";
+import CreateAdminPopup from "./CreateAdminPopup";
 
 export default function RegionalOfficesCard({ regionalOffices, regional_admins, setAdminOpen }) {
     const [showAmins, setShowAdmins] = useState(false)
+    const [createAdminPopup, setCreateAdminPopup] = useState(false)
 
     const assignAdmin = () => {
         setShowAdmins(true)
     };
 
     const handleAddingAdmin = () => {
-        
+        setCreateAdminPopup(true)
+        setShowAdmins(false)
     }
     return (
         <div className="shadow-md sm:rounded-lg h-auto">
@@ -104,6 +107,7 @@ export default function RegionalOfficesCard({ regionalOffices, regional_admins, 
                     })}
                 </tbody>
             </table>
+            {createAdminPopup && <CreateAdminPopup regionalOffices regional_admins setAdminOpen/>}
         </div>
     );
 }
